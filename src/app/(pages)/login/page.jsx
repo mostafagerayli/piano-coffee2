@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/app/lib/supabaseClient";
 
 export default function Login() {
   const router = useRouter();
@@ -18,33 +17,39 @@ export default function Login() {
     setLoading(true);
     setError("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    setLoading(false);
+      const result = await res.json();
 
-    if (error) {
-      setError(error.message);
-      return;
+      setLoading(false);
+
+      if (!res.ok) {
+        setError(result.error || "Login failed");
+        return;
+      }
+
+      console.log("LOGIN SUCCESS:", result.data);
+
+      router.push("/dashboard");
+    } catch (err) {
+      setLoading(false);
+      setError("Network error");
     }
-    console.log(data , error);
-    
-
-    router.push("/dashboard");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-700 to-black text-white">
       <div className="w-full max-w-sm bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-xl">
-        
-        <h1 className="text-2xl font-bold text-center mb-6">
-          Admin Login 🔐
-        </h1>
+        <h1 className="text-2xl font-bold text-center mb-6">Admin Login 🔐</h1>
 
         <form onSubmit={handleLogin} className="space-y-4">
-
           {/* Email */}
           <div>
             <label className="text-sm text-gray-300">Email</label>
@@ -69,9 +74,7 @@ export default function Login() {
           </div>
 
           {/* Error */}
-          {error && (
-            <p className="text-red-400 text-sm">{error}</p>
-          )}
+          {error && <p className="text-red-400 text-sm">{error}</p>}
 
           {/* Button */}
           <button

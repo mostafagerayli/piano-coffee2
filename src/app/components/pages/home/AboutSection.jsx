@@ -70,13 +70,12 @@ export default function AboutSection() {
           {/* IMAGE */}
           <div className="order-1 lg:order-2 relative">
 
-            <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40">
+            <div className="relative w-full h-[500px] lg:h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40">
               <Image
                 src="/images/pexels-dipinder-rainu-247864103-16372982.jpg"
-                width={700}
-                height={850}
                 alt="coffee"
-                className="w-full h-[500px] lg:h-[600px] object-cover hover:scale-105 transition duration-700"
+                fill
+                className="object-cover hover:scale-105 transition duration-700"
               />
             </div>
 
