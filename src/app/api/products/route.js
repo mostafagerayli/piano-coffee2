@@ -1,43 +1,44 @@
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin"
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
 export async function POST(req) {
   try {
-    const formData = await req.formData()
+    const formData = await req.formData();
 
-    const name = formData.get("name")
-    const price = formData.get("price")
-    const description = formData.get("description")
-    const file = formData.get("image")
+    const name = formData.get("name");
+    const price = formData.get("price");
+    const description = formData.get("description");
+    const file = formData.get("image");
+    const product_type = formData.get("product_type"); // 👈 اضافه شد
 
     // 🧠 1. BASIC VALIDATION
     if (!name || !price) {
       return Response.json(
         { error: "Name and price are required" },
         { status: 400 }
-      )
+      );
     }
 
     if (typeof name !== "string" || name.trim().length < 2) {
       return Response.json(
         { error: "Name is too short" },
         { status: 400 }
-      )
+      );
     }
 
-    const numericPrice = Number(price)
+    const numericPrice = Number(price);
 
     if (isNaN(numericPrice) || numericPrice <= 0) {
       return Response.json(
         { error: "Price must be a valid positive number" },
         { status: 400 }
-      )
+      );
     }
 
     if (numericPrice > 1000000) {
       return Response.json(
         { error: "Price is too large" },
         { status: 400 }
-      )
+      );
     }
 
     // 🧠 2. DESCRIPTION VALIDATION
@@ -45,54 +46,54 @@ export async function POST(req) {
       return Response.json(
         { error: "Description too long (max 1000 chars)" },
         { status: 400 }
-      )
+      );
     }
 
     // 🧠 3. IMAGE UPLOAD
-    let imageUrl = null
+    let imageUrl = null;
 
     if (file && file.size > 0) {
-      const allowedTypes = ["image/png", "image/jpeg", "image/webp"]
+      const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
 
       if (!allowedTypes.includes(file.type)) {
         return Response.json(
           { error: "Only PNG, JPG, WEBP allowed" },
           { status: 400 }
-        )
+        );
       }
 
-      const maxSize = 4 * 1024 * 1024 // 4MB
+      const maxSize = 4 * 1024 * 1024;
 
       if (file.size > maxSize) {
         return Response.json(
           { error: "Image too large (max 2MB)" },
           { status: 400 }
-        )
+        );
       }
 
-      const fileName = `${Date.now()}-${file.name}`
+      const fileName = `${Date.now()}-${file.name}`;
 
       const { error: uploadError } = await supabaseAdmin
         .storage
         .from("products")
-        .upload(fileName, file)
+        .upload(fileName, file);
 
       if (uploadError) {
         return Response.json(
           { error: uploadError.message },
           { status: 500 }
-        )
+        );
       }
 
       const { data } = supabaseAdmin
         .storage
         .from("products")
-        .getPublicUrl(fileName)
+        .getPublicUrl(fileName);
 
-      imageUrl = data.publicUrl
+      imageUrl = data.publicUrl;
     }
 
-    // 🧠 4. INSERT PRODUCT (FIX مهم)
+    // 🧠 4. INSERT PRODUCT
     const { data, error } = await supabaseAdmin
       .from("products")
       .insert([
@@ -101,43 +102,62 @@ export async function POST(req) {
           price: numericPrice,
           description: description?.trim() || null,
           image: imageUrl,
+          product_type: product_type || null, // 👈 اضافه شد
         },
       ])
-      .select()
+      .select();
 
     if (error) {
       return Response.json(
         { error: error.message },
         { status: 500 }
-      )
+      );
     }
 
     return Response.json({
       success: true,
       data,
-    })
+    });
 
   } catch (err) {
     return Response.json(
       { error: "Server error" },
       { status: 500 }
-    )
+    );
   }
 }
 
+export async function GET(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type");
 
-export async function GET() {
-  const { data, error } = await supabaseAdmin
-    .from("products")
-    .select("*")
-    .order("id", { ascending: false })
+    let query = supabaseAdmin
+      .from("products")
+      .select("*")
+      .order("id", { ascending: false });
 
-  if (error) {
+    if (type && type !== "all") {
+      query = query.eq("product_type", type);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return Response.json(
+        { error: error.message, data: [] },
+        { status: 500 }
+      );
+    }
+
+    return Response.json({
+      data: data || [],
+    });
+
+  } catch (err) {
     return Response.json(
-      { error: error.message },
+      { error: err.message, data: [] },
       { status: 500 }
-    )
+    );
   }
-
-  return Response.json({ data })
 }

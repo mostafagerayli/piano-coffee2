@@ -5,7 +5,7 @@ import { FaImage, FaPlus } from "react-icons/fa";
 
 import { useAddProductForm } from "../../../hook/useAddProductForm";
 import { createProduct } from "../../../service/productApi";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function AddProducts() {
   const { form, handleChange, reset } = useAddProductForm();
@@ -17,11 +17,11 @@ export default function AddProducts() {
 
     try {
       await createProduct(form);
-      alert("Product added ✅");
-      Window.refresh()
+      toast.success('محصول با موفقیت اضافه شد')
+      window.location.reload();
       reset();
     } catch (err) {
-      alert(err.message);
+        toast.erorre(err.message)
     } finally {
       setLoading(false);
     }
@@ -29,7 +29,6 @@ export default function AddProducts() {
 
   return (
     <div className="rounded-3xl bg-[#2F2F35] border border-[#4A4A50] shadow-[0_20px_60px_rgba(0,0,0,.35)] p-6 lg:p-8 h-fit">
-
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <div className="w-14 h-14 rounded-2xl bg-[#D4AF37] flex items-center justify-center shadow-lg shrink-0">
@@ -45,12 +44,9 @@ export default function AddProducts() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-
         {/* Name */}
         <div>
-          <label className="block text-sm text-gray-300 mb-2">
-            نام محصول
-          </label>
+          <label className="block text-sm text-gray-300 mb-2">نام محصول</label>
 
           <input
             name="name"
@@ -63,9 +59,7 @@ export default function AddProducts() {
 
         {/* Price */}
         <div>
-          <label className="block text-sm text-gray-300 mb-2">
-            قیمت
-          </label>
+          <label className="block text-sm text-gray-300 mb-2">قیمت</label>
 
           <input
             type="number"
@@ -76,12 +70,26 @@ export default function AddProducts() {
             className="w-full h-12 rounded-xl bg-[#3A3A42] border border-[#555] px-4 text-white placeholder:text-gray-400 focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none transition"
           />
         </div>
+        {/* Product Type */}
+        <div>
+          <label className="block text-sm text-gray-300 mb-2">نوع محصول</label>
 
+          <select
+            name="product_type"
+            value={form.product_type}
+            onChange={handleChange}
+            className="w-full h-12 rounded-xl bg-[#3A3A42] border border-[#555] px-4 text-white focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/30 outline-none transition"
+          >
+            <option value="">انتخاب نوع محصول</option>
+            <option value="گرم">گرم</option>
+            <option value="سرد">سرد</option>
+            <option value="کیک">کیک</option>
+            <option value="ماچا">ماچا</option>
+          </select>
+        </div>
         {/* Description */}
         <div>
-          <label className="block text-sm text-gray-300 mb-2">
-            توضیحات
-          </label>
+          <label className="block text-sm text-gray-300 mb-2">توضیحات</label>
 
           <textarea
             rows={4}
@@ -100,14 +108,11 @@ export default function AddProducts() {
           </label>
 
           <label className="cursor-pointer rounded-2xl border-2 border-dashed border-[#666] hover:border-[#D4AF37] transition h-44 flex flex-col items-center justify-center">
-
             <FaImage className="text-[#D4AF37] text-4xl mb-3" />
 
             <p className="text-white text-sm">انتخاب تصویر</p>
 
-            <span className="text-xs text-gray-400 mt-1">
-              PNG • JPG • WEBP
-            </span>
+            <span className="text-xs text-gray-400 mt-1">PNG • JPG • WEBP</span>
 
             <input
               type="file"
@@ -131,7 +136,6 @@ export default function AddProducts() {
         >
           {loading ? "در حال بارگذاری..." : "افزودن محصول"}
         </button>
-
       </form>
     </div>
   );

@@ -5,13 +5,16 @@ export async function createProduct(form) {
   formData.append("price", form.price);
   formData.append("description", form.description);
   formData.append("image", form.image);
+  formData.append("product_type", form.product_type); // 👈 مهم
 
   const res = await fetch("/api/products", {
     method: "POST",
     body: formData,
   });
 
-  const data = await res.json();
+  // 🔥 اینو امن کن
+  const text = await res.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
     throw new Error(data?.error || "Request failed");

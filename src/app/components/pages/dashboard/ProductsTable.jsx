@@ -22,6 +22,7 @@ export default function ProductsTable() {
     setDeletingProduct,
     handleConfirmDelete,
     deleteLoading,
+    updateLoading,
   } = useProducts();
 
   return (
@@ -56,6 +57,7 @@ export default function ProductsTable() {
                   <th className="px-6 py-5 text-right">نام</th>
                   <th className="px-6 py-5 text-right">قیمت</th>
                   <th className="px-6 py-5 text-right">توضیحات</th>
+                  <th className="px-6 py-5 text-right">نوع محصول</th>
                   <th className="px-6 py-5 text-right">تصویر</th>
                   <th className="px-6 py-5 text-center">عملیات</th>
                 </tr>
@@ -85,6 +87,7 @@ export default function ProductsTable() {
         setEditForm={setEditForm}
         setEditingProduct={setEditingProduct}
         handleUpdate={handleUpdate}
+         updateLoading={updateLoading} 
       />
 
       {/* DELETE MODAL */}

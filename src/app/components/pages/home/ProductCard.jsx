@@ -8,7 +8,7 @@ export default function ProductCard({ product }) {
       <div className="relative overflow-hidden">
         <Image
           src={product.image}
-          alt={product.title}
+          alt={product.name}
           width={500}
           height={400}
           className="w-full h-64 object-cover group-hover:scale-110 transition duration-500"
@@ -27,19 +27,19 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* TITLE */}
-        <h3 className="text-white text-xl font-bold">{product.title}</h3>
+        <h3 className="text-white text-xl font-bold">{product.name}</h3>
 
         {/* DESC */}
-        <p className="text-gray-400 leading-7 text-sm">{product.desc}</p>
+        <p className="text-gray-400 leading-7 text-sm">{product.description}</p>
 
         {/* PRICE */}
         <div className="pt-4 space-y-2">
           <div className="flex items-end gap-2">
             <span className="text-2xl font-bold text-[#D4AF37] tracking-wide">
-              {product.price}
+              {product.price.toLocaleString()}
             </span>
 
-            <span className="text-sm text-gray-400 mb-1">هزار تومان</span>
+            <span className="text-sm text-gray-400 mb-1"> تومان</span>
           </div>
 
           {/* line + hint under price */}

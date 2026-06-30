@@ -15,7 +15,11 @@ export default function ProductRow({ p, onEdit, onDelete }) {
           {p.description}
         </p>
       </td>
-
+      <td className="px-6 py-5 text-gray-200">
+        <span className="px-3 py-1 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-sm">
+          {p.product_type || "-"}
+        </span>
+      </td>
       <td className="px-6 py-5">
         {p.image ? (
           <Image
@@ -53,7 +57,6 @@ export default function ProductRow({ p, onEdit, onDelete }) {
 
         </div>
       </td>
-
     </tr>
   );
 }

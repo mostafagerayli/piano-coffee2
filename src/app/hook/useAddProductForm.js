@@ -8,6 +8,7 @@ export function useAddProductForm() {
     price: "",
     description: "",
     image: null,
+    product_type: "", // 👈 اضافه شد
   });
 
   const handleChange = (e) => {
@@ -25,6 +26,7 @@ export function useAddProductForm() {
       price: "",
       description: "",
       image: null,
+      product_type: "", // 👈 اضافه شد
     });
 
   return { form, setForm, handleChange, reset };

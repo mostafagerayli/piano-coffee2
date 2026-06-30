@@ -1,16 +1,30 @@
-import { supabase } from "@/app/lib/supabaseClient"
+import { supabase } from "@/app/lib/supabaseClient";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const { email, password } = await req.json()
+  const { email, password } = await req.json();
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
-  })
+  });
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 400 })
+    return NextResponse.json(
+      { error: error.message },
+      { status: 400 }
+    );
   }
 
-  return Response.json({ data }, { status: 200 })
+  const token = data.session.access_token;
+
+  const res = NextResponse.json({ user: data.user });
+
+  res.cookies.set("token", token, {
+    httpOnly: true,
+    path: "/",
+    maxAge: 60 * 60,
+  });
+
+  return res;
 }

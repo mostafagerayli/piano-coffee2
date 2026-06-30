@@ -20,85 +20,69 @@ export async function DELETE(req, { params }) {
 
 export async function PUT(req, { params }) {
   try {
-    const { id } =await params; // ✅ FIX
+    const { id } =await params;
 
     if (!id) {
-      return Response.json(
-        { error: "Missing product id" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Missing id" }, { status: 400 });
     }
 
-    const body = await req.json();
+    const formData = await req.formData();
 
-    const { name, price, description, image } = body;
+    const name = formData.get("name");
+    const price = formData.get("price");
+    const description = formData.get("description");
+    const file = formData.get("image");
+    const product_type = formData.get("product_type");
 
-    // 🧠 1. VALIDATION NAME
-    if (!name || typeof name !== "string" || name.trim().length < 2) {
-      return Response.json(
-        { error: "Invalid name" },
-        { status: 400 }
-      );
+    // VALIDATION
+    if (!name || typeof name !== "string") {
+      return Response.json({ error: "Invalid name" }, { status: 400 });
     }
 
-    // 🧠 2. VALIDATION PRICE
     const numericPrice = Number(price);
 
     if (isNaN(numericPrice) || numericPrice <= 0) {
-      return Response.json(
-        { error: "Invalid price" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Invalid price" }, { status: 400 });
     }
 
-    if (numericPrice > 1000000) {
-      return Response.json(
-        { error: "Price too large" },
-        { status: 400 }
-      );
+    let imageUrl = null;
+
+    // اگر فایل جدید بود → upload کن
+    if (file && typeof file !== "string") {
+      const fileName = `${Date.now()}-${file.name}`;
+
+      const { error: uploadError } = await supabaseAdmin.storage
+        .from("products")
+        .upload(fileName, file);
+
+      if (uploadError) {
+        return Response.json({ error: uploadError.message }, { status: 500 });
+      }
+
+      const { data } = supabaseAdmin.storage
+        .from("products")
+        .getPublicUrl(fileName);
+
+      imageUrl = data.publicUrl;
     }
 
-    // 🧠 3. VALIDATION DESCRIPTION
-    if (description && description.length > 1000) {
-      return Response.json(
-        { error: "Description too long" },
-        { status: 400 }
-      );
-    }
-
-    // 🧠 4. OPTIONAL IMAGE VALIDATION
-    let imageUrl = image || null;
-
-    if (image && typeof image !== "string") {
-      return Response.json(
-        { error: "Invalid image format" },
-        { status: 400 }
-      );
-    }
-
-    // 🧠 5. UPDATE DB
     const { data, error } = await supabaseAdmin
       .from("products")
       .update({
         name: name.trim(),
         price: numericPrice,
-        description: description?.trim() || null,
-        image: imageUrl,
+        description: description || null,
+          product_type: product_type || null,
+        ...(imageUrl && { image: imageUrl }),
       })
       .eq("id", id)
       .select();
 
     if (error) {
-      return Response.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return Response.json({ error: error.message }, { status: 500 });
     }
 
-    return Response.json({
-      success: true,
-      data,
-    });
+    return Response.json({ success: true, data });
   } catch (err) {
     return Response.json(
       { error: err.message || "Server error" },

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const router = useRouter();
@@ -34,9 +35,7 @@ export default function Login() {
         setError(result.error || "Login failed");
         return;
       }
-
-      console.log("LOGIN SUCCESS:", result.data);
-
+      toast.success("لاگین با موفقیت انجام شد");
       router.push("/dashboard");
     } catch (err) {
       setLoading(false);
