@@ -14,15 +14,12 @@ export async function POST(req) {
     if (!name || !price) {
       return Response.json(
         { error: "Name and price are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (typeof name !== "string" || name.trim().length < 2) {
-      return Response.json(
-        { error: "Name is too short" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Name is too short" }, { status: 400 });
     }
 
     const numericPrice = Number(price);
@@ -30,22 +27,19 @@ export async function POST(req) {
     if (isNaN(numericPrice) || numericPrice <= 0) {
       return Response.json(
         { error: "Price must be a valid positive number" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (numericPrice > 1000000) {
-      return Response.json(
-        { error: "Price is too large" },
-        { status: 400 }
-      );
+      return Response.json({ error: "Price is too large" }, { status: 400 });
     }
 
     // 🧠 2. DESCRIPTION VALIDATION
     if (description && description.length > 1000) {
       return Response.json(
         { error: "Description too long (max 1000 chars)" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +52,7 @@ export async function POST(req) {
       if (!allowedTypes.includes(file.type)) {
         return Response.json(
           { error: "Only PNG, JPG, WEBP allowed" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -67,26 +61,21 @@ export async function POST(req) {
       if (file.size > maxSize) {
         return Response.json(
           { error: "Image too large (max 2MB)" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       const fileName = `${Date.now()}-${file.name}`;
 
-      const { error: uploadError } = await supabaseAdmin
-        .storage
+      const { error: uploadError } = await supabaseAdmin.storage
         .from("products")
         .upload(fileName, file);
 
       if (uploadError) {
-        return Response.json(
-          { error: uploadError.message },
-          { status: 500 }
-        );
+        return Response.json({ error: uploadError.message }, { status: 500 });
       }
 
-      const { data } = supabaseAdmin
-        .storage
+      const { data } = supabaseAdmin.storage
         .from("products")
         .getPublicUrl(fileName);
 
@@ -108,22 +97,15 @@ export async function POST(req) {
       .select();
 
     if (error) {
-      return Response.json(
-        { error: error.message },
-        { status: 500 }
-      );
+      return Response.json({ error: error.message }, { status: 500 });
     }
 
     return Response.json({
       success: true,
       data,
     });
-
   } catch (err) {
-    return Response.json(
-      { error: "Server error" },
-      { status: 500 }
-    );
+    return Response.json({ error: "Server error" }, { status: 500 });
   }
 }
 
@@ -144,20 +126,13 @@ export async function GET(req) {
     const { data, error } = await query;
 
     if (error) {
-      return Response.json(
-        { error: error.message, data: [] },
-        { status: 500 }
-      );
+      return Response.json({ error: error.message, data: [] }, { status: 500 });
     }
 
     return Response.json({
       data: data || [],
     });
-
   } catch (err) {
-    return Response.json(
-      { error: err.message, data: [] },
-      { status: 500 }
-    );
+    return Response.json({ error: err.message, data: [] }, { status: 500 });
   }
 }

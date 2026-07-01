@@ -1,26 +1,20 @@
-import { supabaseAdmin } from "@/app/lib/supabaseAdmin"
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 
 export async function DELETE(req, { params }) {
-  const { id } = await params
+  const { id } = await params;
 
-  const { error } = await supabaseAdmin
-    .from("products")
-    .delete()
-    .eq("id", id)
+  const { error } = await supabaseAdmin.from("products").delete().eq("id", id);
 
   if (error) {
-    return Response.json(
-      { error: error.message },
-      { status: 500 }
-    )
+    return Response.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json({ success: true })
+  return Response.json({ success: true });
 }
 
 export async function PUT(req, { params }) {
   try {
-    const { id } =await params;
+    const { id } = await params;
 
     if (!id) {
       return Response.json({ error: "Missing id" }, { status: 400 });
@@ -72,7 +66,7 @@ export async function PUT(req, { params }) {
         name: name.trim(),
         price: numericPrice,
         description: description || null,
-          product_type: product_type || null,
+        product_type: product_type || null,
         ...(imageUrl && { image: imageUrl }),
       })
       .eq("id", id)
@@ -86,7 +80,7 @@ export async function PUT(req, { params }) {
   } catch (err) {
     return Response.json(
       { error: err.message || "Server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

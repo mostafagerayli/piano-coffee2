@@ -1,19 +1,16 @@
-import { supabase } from "@/app/lib/supabaseClient";
+import { supabaseAdmin } from "@/app/lib/supabaseAdmin";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { email, password } = await req.json();
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabaseAdmin.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
   const token = data.session.access_token;

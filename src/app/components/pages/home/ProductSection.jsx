@@ -2,15 +2,21 @@ import CategoryFilter from "./CategoryFilter";
 import ProductCard from "./ProductCard";
 
 export default async function ProductsSection({ searchParams }) {
-  const type = searchParams?.type || "all";
+  
+const type = searchParams?.type || "all";
+
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 const res = await fetch(
-  `/api/products${type !== "all" ? `?type=${type}` : ""}`,
+  `${baseUrl}/api/products${
+    type !== "all" ? `?type=${type}` : ""
+  }`,
   { cache: "no-store" }
 );
 
 const products = await res.json();
-  
 
   return (
     <section className="bg-[#0F0F10]">
