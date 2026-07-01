@@ -1,149 +1,121 @@
-☕ Piano Coffee — Full Stack Coffee Shop Admin & Store
+☕ Piano Coffee — Full-Stack Coffee Shop Platform
 
-A modern coffee shop web application built with Next.js App Router, Supabase, and Tailwind CSS, featuring a complete admin dashboard and a dynamic product storefront with filtering capabilities.
+A modern, production-ready coffee shop web application built with Next.js (App Router), Supabase, and Tailwind CSS.
+It includes a fully functional admin dashboard, secure authentication, and a dynamic product storefront with advanced filtering.
 
 🚀 Tech Stack
-⚡ Next.js (App Router)
-🗄️ Supabase (Auth + Database)
+⚡ Next.js 14+ (App Router)
+🗄️ Supabase (Auth + PostgreSQL Database)
 🎨 Tailwind CSS
-⚛️ React (Hooks & Client Components)
-🔔 React Toastify
-🔐 Authentication (Supabase Auth)
+⚛️ React (Hooks, Server & Client Components)
+🔐 Supabase Authentication
 📡 Next.js API Routes
-🧩 Reusable Components Architecture
-🧠 Custom Hooks (e.g. useProducts)
-🇮🇷 Persian UI Support (Vazirmatn Font)
-📦 Project Overview
+🔔 React Toastify
+🧩 Reusable Component Architecture
+🧠 Custom Hooks (useProducts)
+🇮🇷 Persian font support (Vazirmatn)
+📌 Project Overview
 
-This project is divided into two main parts:
+This project is a full-stack coffee shop system with two main layers:
 
-🏠 Frontend Store (Home Page)
+🏪 Public Storefront
 
-A public-facing coffee shop interface where users can browse products.
+A fast and responsive UI where users can browse and filter products.
 
 🧑‍💼 Admin Dashboard
 
-A protected admin panel for managing products (CRUD operations).
+A secure control panel for managing products with full CRUD functionality.
 
-🏠 Home Page Features
+🏠 Storefront (Home Page)
 
-The Home page is the main storefront where products are displayed dynamically.
+The Home page is designed as a modern product showcase for a coffee shop.
 
-🔎 Product Filtering
+🔎 Product Filtering System
 
-Products can be filtered based on:
+Products are dynamically filtered by product category/type:
 
-product-type
+🔥 Hot Drinks
+🧊 Cold Drinks
+🍰 Cakes
+🍵 Matcha-based products
 
-Filtering is fully dynamic without page reload.
+Filtering is fully client-side and updates instantly without page reload.
 
-Example:
-
-☕ Espresso
-🫘 Coffee Beans
-🥤 Cold Drinks
-🍰 Desserts (extensible)
-⚙️ Key Features
-Fast client-side filtering
-Optimized state management with hooks
-Responsive UI for mobile & desktop
+✨ Key Features
+Instant filtering by product type
+Smooth and responsive UI
+Optimized state management with React hooks
 Reusable product card components
-Smooth UX with loading states
+Clean and minimal coffee-shop UI design
 🧑‍💼 Admin Dashboard
 
-A secure panel accessible only to authenticated users.
+A protected admin panel for managing all product data.
 
 🛠️ Features
 📦 View all products
-➕ Add new product
-✏️ Edit product
-❌ Delete product
-🔄 Full CRUD system
-🔐 Protected routes (Supabase session-based auth)
-🔐 Authentication (Supabase)
+➕ Create new products
+✏️ Edit existing products
+❌ Delete products
+🔄 Full CRUD operations
+🔐 Protected routes using Supabase Auth
+🔐 Authentication System
 
-Authentication is handled using Supabase Auth:
+Authentication is handled via Supabase Auth:
 
 Email-based login system
 Session persistence
 Protected dashboard routes
-Auto redirect if not logged in
-🧠 API Architecture (Next.js API Routes)
+Auto redirect for unauthorized users
+🧠 Backend Architecture
 
-Backend logic is handled via Next.js API routes connected to Supabase.
+The backend is built using Next.js API Routes connected to Supabase.
 
-Endpoints:
+API Endpoints
 GET /api/products → Fetch all products
 POST /api/products → Create product
 PUT /api/products/:id → Update product
-DELETE /api/products/:id → Remove product
-Notes:
-All routes are connected to Supabase
-Error-safe JSON parsing implemented
-Request caching disabled where needed (no-store)
+DELETE /api/products/:id → Delete product
+Design Notes
+Clean separation between frontend and data layer
+Supabase used as primary database
+Safe JSON parsing and error handling
+Optimized fetch strategy (no-store where needed)
 🎨 UI / UX Design
-Dark modern UI theme
+Modern dark-themed UI
+Coffee-inspired aesthetic
+Fully responsive design (mobile-first)
 Tailwind CSS utility-first styling
-Rounded cards with soft shadows
-Responsive layout (mobile-first)
-Persian typography using Vazirmatn
-Consistent design system across pages
-🔔 Notifications System
+Smooth shadows, rounded cards, and soft contrasts
+Typography powered by Vazirmatn font
+🔔 Notifications
 
-Using React Toastify:
+User feedback is handled using React Toastify:
 
 ✅ Success messages (create/update/delete)
 ❌ Error handling alerts
-⚠️ Warnings for invalid actions
-⚙️ Pages Structure
-Public Pages
-/ → Home (Product listing + filter by type)
-/login → Authentication page
-Protected Pages
-/dashboard → Admin panel
-System Pages
-/error → Global error handler
-/not-found → Custom 404 page
-/loading → Global loading UI
-🧩 Reusable Architecture
-
-The project is built with scalability in mind:
-
-Reusable UI components
-Shared layout system
-Centralized hooks (useProducts)
-Separation of concerns (UI / logic / API)
-🧠 Key Features Summary
-Full CRUD product system
-Supabase backend integration
-Secure authentication flow
-Dynamic filtering on Home page
-Admin dashboard with protected access
-Reusable component architecture
-Optimized API handling
-Global error & loading handling
+⚠️ Validation warnings
 📁 Project Structure
 /app
-  /dashboard        → Admin panel
+  /dashboard        → Admin panel (protected)
   /login            → Authentication page
-  /api              → API routes (products CRUD)
-  /error            → Error boundary page
+  /api              → Backend API routes
+  /error            → Global error UI
   /not-found        → 404 page
-  /loading          → Global loading UI
+  /loading          → Loading UI
 
 /components
   /ui               → Reusable UI components
-  /layout           → Layout components (Sidebar/Navbar)
+  /layout           → Layout system (Navbar/Sidebar)
   /products         → Product-related components
 
 /hooks
-  useProducts       → Product data management
+  useProducts       → Product state & logic
 
 /lib
   supabaseClient    → Supabase configuration
-🔧 Environment Variables
+⚙️ Environment Variables
 
-Create .env.local:
+Create a .env.local file:
 
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -156,23 +128,32 @@ npm run dev
 
 # Build for production
 npm run build
-📈 Future Improvements (Roadmap)
+🧠 Key Engineering Highlights
+Clean and scalable folder structure
+Separation of UI, logic, and API layers
+Reusable components across the project
+Efficient state management using hooks
+Secure authentication flow with Supabase
+Optimized data fetching strategy
+Error-safe API responses
+Fully modular architecture
+📈 Future Improvements
 🔐 Role-based access control (Admin / Editor)
 📷 Product image upload system
-🔍 Advanced filtering (price, category, availability)
-📄 Pagination for products
-📊 Analytics dashboard for admin
-🔄 Real-time updates with Supabase subscriptions
-🧾 Order system (cart + checkout)
-💡 Design Philosophy
+🔍 Advanced filtering (price, availability, popularity)
+📄 Pagination system for large datasets
+📊 Admin analytics dashboard
+🔄 Real-time updates via Supabase subscriptions
+🛒 Shopping cart & order system
+💡 Architecture Philosophy
 
-This project follows:
+This project is built with a focus on:
 
-Clean Architecture principles
-Separation of UI and business logic
-Scalable folder structure
-Minimal but powerful UI design
-Performance-first data fetching strategy
+Scalability over quick hacks
+Clean and readable code structure
+Reusable and maintainable components
+Performance-first data handling
+Real-world production patterns (not tutorial code)
 🧾 License
 
-This project is open for learning and portfolio use.
+This project is intended for portfolio and educational use.
