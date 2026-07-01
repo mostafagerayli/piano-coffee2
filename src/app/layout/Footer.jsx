@@ -31,16 +31,8 @@ export default function Footer() {
 
             <div className="flex gap-4 mt-10">
 
-              <a className="bg-amber-400 w-11 h-11 rounded-full border border-[#333] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition">
+              <a href="https://instagram.com/piano__coffee_" className="bg-amber-400 w-11 h-11 rounded-full border border-[#333] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition">
                 <FaInstagram />
-              </a>
-
-              <a className="bg-amber-400 w-11 h-11 rounded-full border border-[#333] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition">
-                <FaTelegram />
-              </a>
-
-              <a className="bg-amber-400 w-11 h-11 rounded-full border border-[#333] flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition">
-                <FaLinkedin />
               </a>
 
             </div>

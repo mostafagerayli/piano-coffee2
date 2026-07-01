@@ -1,0 +1,33 @@
+"use client";
+
+import { useState } from "react";
+
+export function useAddProduct() {
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    description: "",
+    image: null,
+    product_type: "", // 👈 اضافه شد
+  });
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const reset = () =>
+    setForm({
+      name: "",
+      price: "",
+      description: "",
+      image: null,
+      product_type: "", // 👈 اضافه شد
+    });
+
+  return { form, setForm, handleChange, reset };
+}

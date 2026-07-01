@@ -1,15 +1,9 @@
 @import "tailwindcss";
 
+/* Theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,11 +13,22 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tailwind theme */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-vazirmatn);
 }
+
+/* Base styles */
+body {
+  background: #161618;
+  min-height: 100vh;
+
+  font-family: var(--font-vazirmatn), sans-serif;
+}
+
+/* Toast responsive */
 @media (max-width: 640px) {
   .Toastify__toast-container {
     width: 94vw !important;
@@ -37,10 +42,59 @@ body {
     border-radius: 18px !important;
     font-size: 14px !important;
     backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
   }
 
   .Toastify__toast-body {
     padding: 0 !important;
   }
+}
+
+/* Font fallback (optional) */
+@font-face {
+  font-family: "IRANSans";
+  src: url("/fonts/iranian-sans/iranian-sans.woff2") format("woff2"),
+       url("/fonts/iranian-sans/iranian-sans.woff") format("woff"),
+       url("/fonts/iranian-sans/iranian-sans.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 0.15;
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
 }

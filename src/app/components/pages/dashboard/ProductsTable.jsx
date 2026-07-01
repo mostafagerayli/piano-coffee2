@@ -4,26 +4,31 @@ import { useProducts } from "../../../hook/useProducts";
 import ProductRow from "./ProductRow";
 import ProductModal from "./ProductModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
+import { useDeleteProduct } from "@/app/hook/useDeleteProduct";
+import { useUpdateProduct } from "@/app/hook/useUpdateProduct";
 
 export default function ProductsTable() {
-  const {
-    products,
-    loading,
-
-    editingProduct,
-    setEditingProduct,
-    editForm,
-    setEditForm,
-
-    handleDeleteClick,
-    handleEditClick,
-    handleUpdate,
-    deletingProduct,
-    setDeletingProduct,
-    handleConfirmDelete,
-    deleteLoading,
-    updateLoading,
-  } = useProducts();
+const {
+  products,
+  setProducts,
+  loading,
+} = useProducts();
+const {
+  deletingProduct,
+  handleDeleteClick,
+  handleConfirmDelete,
+  deleteLoading,
+  setDeletingProduct
+} = useDeleteProduct(setProducts);
+const {
+  editingProduct,
+  editForm,
+  setEditForm,
+  handleEditClick,
+  handleUpdate,
+  setEditingProduct,
+  updateLoading,
+} = useUpdateProduct(setProducts);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#2A2A2E] via-[#1E1E22] to-[#161618] flex items-center justify-center p-4 md:p-8">

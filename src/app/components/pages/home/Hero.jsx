@@ -4,7 +4,7 @@ export default function Hero() {
   return (
     <section
       dir="ltr"
-      className="relative min-h-[80vh] lg:min-h-[90vh] overflow-hidden bg-[#1b120d]"
+      className="relative min-h-[80vh] lg:min-h-[90vh] overflow-hidden bg-[#1b120d] pt-10"
     >
       {/* Background */}
       <Image
@@ -19,66 +19,32 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-[#1b120d]/95 via-[#1b120d]/70 to-[#1b120d]/30" />
 
       {/* Glow */}
-      <div className="absolute right-[-120px] top-20 w-[280px] h-[280px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] rounded-full bg-amber-500/20 blur-[120px]" />
+      <div className="absolute right-[-120px] top-20 w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[420px] md:h-[420px] rounded-full bg-amber-500/20 blur-[120px]" />
 
-      {/* Content Wrapper */}
+      {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto h-full px-5 sm:px-6 flex items-center">
-
-        <div className="max-w-2xl space-y-6">
-
+        <div className="max-w-2xl space-y-5 sm:space-y-6">
           {/* Badge */}
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-amber-300 text-xs sm:text-sm border border-white/10">
-            ☕ Specialty Coffee • Piano Experience
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-amber-300 text-[11px] sm:text-sm border border-white/10 tracking-wide">
+            ☕ Specialty Coffee • Live Piano Atmosphere
           </span>
 
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-white space-y-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] text-white mt-4">
             <span className="block">Piano Coffee</span>
-            <span className="block text-amber-400">
-              Every Morning
+            <span className="block text-amber-400 mt-1 sm:mt-2">
+              Every Morning Reimagined
             </span>
           </h1>
 
           {/* Description */}
-          <p className="text-sm sm:text-base md:text-lg leading-7 text-gray-200 max-w-xl">
-            در  پیانو کافه هر فنجان نتیجه‌ی انتخاب دقیق دانه‌ها و رست تخصصی است
-            ما یک تجربه آرام و متمرکز برای شروع روزت می‌سازیم
+          <p className="text-sm sm:text-base md:text-lg leading-7 sm:leading-8 text-gray-200 max-w-xl">
+            Every cup at Piano Coffee is crafted with precision, from carefully
+            selected beans to a perfectly balanced roast. We create a calm,
+            minimal, and focused experience to help you start your day with
+            clarity, warmth, and inspiration.
           </p>
-
-          {/* Stats */}
-          <div className="flex flex-wrap gap-8 sm:gap-12 pt-4">
-
-            <div className="flex flex-col items-start">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                +1200
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                مشتری وفادار
-              </p>
-            </div>
-
-            <div className="flex flex-col items-start">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                +85
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                ترکیب قهوه
-              </p>
-            </div>
-
-            <div className="flex flex-col items-start">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                +10
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-300 mt-1">
-                سال تجربه
-              </p>
-            </div>
-
-          </div>
-
         </div>
-
       </div>
     </section>
   );

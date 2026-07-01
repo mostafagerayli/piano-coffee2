@@ -24,7 +24,7 @@ export default async function ProductsSection({ searchParams }) {
           </span>
 
           <h2 className="text-white text-4xl font-black mt-4">
-            محصولات ویژه
+              منو کافه
           </h2>
 
           <div className="w-24 h-1 bg-[#D4AF37] rounded-full mx-auto mt-5"></div>

@@ -1,3 +1,5 @@
+import { formatPrice } from "@/app/utils/formatPrice";
+
 export default function ProductModal({
   editingProduct,
   editForm,
@@ -43,12 +45,20 @@ export default function ProductModal({
             {/* PRICE */}
             <div>
               <label className="block text-gray-300 mb-2 text-sm">قیمت</label>
+
               <input
-                type="number"
-                value={editForm?.price || ""}
-                onChange={(e) =>
-                  setEditForm({ ...editForm, price: e.target.value })
-                }
+                type="text"
+                value={formatPrice(editForm?.price)}
+                onChange={(e) => {
+                  const value = e.target.value
+                    .replace(/,/g, "")
+                    .replace(/\D/g, "");
+
+                  setEditForm({
+                    ...editForm,
+                    price: value,
+                  });
+                }}
                 className="w-full h-10 sm:h-12 text-sm sm:text-base rounded-xl bg-[#3A3A42] border border-[#555] px-3 sm:px-4 text-white outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition"
               />
             </div>
