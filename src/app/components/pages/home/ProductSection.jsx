@@ -1,22 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import ProductCard from "./ProductCard";
 
-export default async function ProductsSection({ searchParams }) {
-  
-const type = searchParams?.type || "all";
+export default function ProductsSection({ searchParams }) {
+  const type = searchParams?.type || "all";
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const res = await fetch(
-  `${baseUrl}/api/products${
-    type !== "all" ? `?type=${type}` : ""
-  }`,
-  { cache: "no-store" }
-);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
 
-const products = await res.json();
+        const res = await fetch(
+          `/api/products${type !== "all" ? `?type=${type}` : ""}`,
+          { cache: "no-store" }
+        );
+
+        const data = await res.json();
+        setProducts(data.data || []);
+      } catch (err) {
+        console.error(err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [type]);
 
   return (
     <section className="bg-[#0F0F10]">
@@ -28,20 +43,23 @@ const products = await res.json();
           </span>
 
           <h2 className="text-white text-4xl font-black mt-4">
-              منو کافه
+            منو کافه
           </h2>
 
           <div className="w-24 h-1 bg-[#D4AF37] rounded-full mx-auto mt-5"></div>
         </div>
 
-        {/* 🔥 اینجا URL-based filter */}
         <CategoryFilter />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.data.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {loading ? (
+          <p className="text-white text-center">Loading...</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
 
       </div>
     </section>
